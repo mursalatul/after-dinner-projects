@@ -5,13 +5,25 @@ from protocol import *
 class ChatSession:
     """Manages the interactive chat session, implementing half-duplex communication rules."""
     def __init__(self, conn):
+        """
+        Initializes the ChatSession with a given connection.
+
+        Args:
+            conn (socket.socket): The TCP socket connection to the peer.
+        """
         self.conn = conn
         self.running = True
         self.ack_event = threading.Event()
         self.ack_event.set() # Initially we can send the first message
         
     def start(self):
-        """Starts the chat thread and begins reading user input."""
+        """
+        Starts the chat thread and begins reading user input.
+        
+        This method initializes a background daemon thread to listen for
+        incoming messages and enters a loop to capture user input,
+        ensuring half-duplex communication rules are followed.
+        """
         print("\n--- Chat session established. You can start typing. Type 'exit' to quit. ---")
         
         # Start a background daemon thread to listen for incoming messages
@@ -49,7 +61,12 @@ class ChatSession:
             self.conn.close()
 
     def receive_loop(self):
-        """Background loop continuously polling the TCP socket for incoming packets."""
+        """
+        Background loop continuously polling the TCP socket for incoming packets.
+
+        This routine receives messages, displays text payloads, and manages
+        protocol acknowledgments to maintain the half-duplex state.
+        """
         while self.running:
             prefix, args = recv_msg(self.conn)
             

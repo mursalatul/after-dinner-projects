@@ -6,6 +6,16 @@ from protocol import *
 from chat_session import ChatSession
 
 def run_initiator(target_nickname, timeout_sec):
+    """
+    Executes the initiator role for the local network chat protocol.
+
+    Initiates discovery using UDP broadcasts, establishes a TCP server to await
+    connections, verifies the handshake, and launches the chat session.
+
+    Args:
+        target_nickname (str): The requested nickname of the recipient to discover.
+        timeout_sec (int): Allowable time in seconds to wait for a connection.
+    """
     req_uuid = str(uuid.uuid4())
     deadline_ts = time.time() + timeout_sec
     

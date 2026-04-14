@@ -5,6 +5,15 @@ from protocol import *
 from chat_session import ChatSession
 
 def run_recipient(my_nickname):
+    """
+    Executes the recipient role for the local network chat protocol.
+
+    Listens for UDP discovery broadcasts, matches queries against `my_nickname`,
+    and initiates a TCP connection and handshake to establish the chat session.
+
+    Args:
+        my_nickname (str): The unique nickname identifying this recipient node.
+    """
     # Bind to Local UDP broadcast port for receiving initiator queries
     udp_sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     
